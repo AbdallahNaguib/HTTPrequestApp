@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">demo</string>
+    <string name="search">Search</string>
+    <string name="error_msg">Failed to get results , please try again</string>
+    <string name="enter_a_query_then_click_search">Enter a query then click search</string>
+    <string name="search_url">Your search url will show up here when you click search</string>
+    <string name="search_quote">Perform your search</string>
+</resources>
