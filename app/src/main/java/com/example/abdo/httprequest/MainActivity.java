@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     EditText searchBoxEditText;
     TextView searchRes,errorMsg;
     ArrayList<String> globalNames;
+    final String ADAPTER_KEY="adapter";
     ProgressBar pb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,23 @@ public class MainActivity extends AppCompatActivity
         searchRes=findViewById(R.id.tv_github_search_results_json);
         recyclerView=findViewById(R.id.rv_numbers);
         recyclerView.setVisibility(View.INVISIBLE);
+
+        if(savedInstanceState!=null && savedInstanceState.containsKey(ADAPTER_KEY)){
+            greenAdapter=savedInstanceState.getParcelable(ADAPTER_KEY);
+            if(greenAdapter!=null) {
+                showJSONdata();
+                recyclerViewStuff(greenAdapter.getNames(), greenAdapter);
+            }
+        }
     }
-    public void recyclerViewStuff(ArrayList<String> names){
+    public void recyclerViewStuff(ArrayList<String> names,GreenAdapter adapter){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        greenAdapter=new GreenAdapter(names,this);
+        if(adapter==null)
+            greenAdapter=new GreenAdapter(names,this);
+        else
+            greenAdapter=adapter;
         recyclerView.setAdapter(greenAdapter);
         globalNames=names;
     }
@@ -65,6 +78,14 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Intent.EXTRA_TEXT,globalNames.get(index));
         startActivity(intent);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(greenAdapter!=null)
+            outState.putParcelable(ADAPTER_KEY,greenAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -128,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                         JSONObject js=items.getJSONObject(i);
                         names.add(js.getString("name")+"\n");
                     }
-                    recyclerViewStuff(names);
+                    recyclerViewStuff(names,null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

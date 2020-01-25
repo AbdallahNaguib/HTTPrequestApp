@@ -16,6 +16,8 @@
 package com.example.abdo.httprequest;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -38,11 +41,18 @@ import java.util.ArrayList;
  * If you don't like our puns, we named this Adapter GreenAdapter because its
  * contents are green.
  */
-public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHolder> {
+public class GreenAdapter extends
+        RecyclerView.Adapter<GreenAdapter.NumberViewHolder>
+        implements Parcelable{
 
     private static final String TAG = GreenAdapter.class.getSimpleName();
 
     private int mNumberItems;
+
+    public ArrayList<String> getNames() {
+        return names;
+    }
+
     private ArrayList<String> names;
     private int count;
     private ListItemClickedListener itemClickedListener;
@@ -53,6 +63,24 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
         this.names=names;
         count=0;
     }
+
+    protected GreenAdapter(Parcel in) {
+        mNumberItems = in.readInt();
+        names = in.createStringArrayList();
+        count = in.readInt();
+    }
+
+    public static final Creator<GreenAdapter> CREATOR = new Creator<GreenAdapter>() {
+        @Override
+        public GreenAdapter createFromParcel(Parcel in) {
+            return new GreenAdapter(in);
+        }
+
+        @Override
+        public GreenAdapter[] newArray(int size) {
+            return new GreenAdapter[size];
+        }
+    };
 
     @NonNull
     /**
@@ -105,6 +133,20 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
 
         return mNumberItems;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mNumberItems);
+        parcel.writeStringList(names);
+        parcel.writeInt(count);
+    }
+
+
     public interface ListItemClickedListener{
 
         void onListItemClicked(int index);
