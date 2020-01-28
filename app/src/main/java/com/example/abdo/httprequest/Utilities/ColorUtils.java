@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.abdo.httprequest;
+package com.example.abdo.httprequest.Utilities;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+
+import com.example.abdo.httprequest.R;
 
 /**
  * ColorUtils is a class with one method, used to color the ViewHolders in

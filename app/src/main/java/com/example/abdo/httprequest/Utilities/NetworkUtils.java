@@ -2,6 +2,7 @@
 package com.example.abdo.httprequest.Utilities;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +60,9 @@ public class NetworkUtils {
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
+            Log.d("conn","before reading from the internet");
             InputStream in = urlConnection.getInputStream();
+            Log.d("conn","after reading from the internet");
 
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.abdo.httprequest;
+package com.example.abdo.httprequest.Adapters;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -26,7 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import com.example.abdo.httprequest.Utilities.ColorUtils;
+import com.example.abdo.httprequest.R;
+
 import java.util.ArrayList;
 
 /**
@@ -57,14 +59,14 @@ public class GreenAdapter extends
     private int count;
     private ListItemClickedListener itemClickedListener;
 
-    GreenAdapter(ArrayList<String> names,ListItemClickedListener itemClickedListener) {
+    public GreenAdapter(ArrayList<String> names,ListItemClickedListener itemClickedListener) {
         mNumberItems = names.size();
         this.itemClickedListener=itemClickedListener;
         this.names=names;
         count=0;
     }
 
-    protected GreenAdapter(Parcel in) {
+    private GreenAdapter(Parcel in) {
         mNumberItems = in.readInt();
         names = in.createStringArrayList();
         count = in.readInt();
@@ -97,7 +99,7 @@ public class GreenAdapter extends
     @Override
     public NumberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context=parent.getContext();
-        int layoutIdForListItem=R.layout.list_item;
+        int layoutIdForListItem= R.layout.list_item;
         LayoutInflater inflater=LayoutInflater.from(context);
         View view=inflater.inflate(layoutIdForListItem,parent,false);
         NumberViewHolder viewHolder=new NumberViewHolder(view);

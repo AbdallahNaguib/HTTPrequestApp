@@ -1,9 +1,11 @@
-package com.example.abdo.httprequest;
+package com.example.abdo.httprequest.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.abdo.httprequest.R;
 
 public class SecondActivity extends AppCompatActivity {
 
